@@ -1,0 +1,15 @@
+# 训练图像路径（可用绝对路径或相对路径）
+path: E:/Anaconda/envs/yolov10uno/datasets/unoDatasets
+train: train/images
+val: valid/images
+test: test/images
+
+# 类别总数
+nc: 15
+
+# 类别名，顺序必须与标签中的 class_id 对应
+names:
+  [
+    "num_0", "num_1", "+4", "+2", "reverse", "skip", "wild",
+    "num_2", "num_3", "num_4", "num_5", "num_6", "num_7", "num_8", "num_9"
+  ]
