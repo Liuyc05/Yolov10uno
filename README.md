@@ -1,4 +1,4 @@
-# The practise of UNO model on Yolov10
+# The practise of UNO model base on Yolov10
 An Uno card recognition model based on the open-source Uno dataset from the Internet and the Yolov10s and Yolov10n models
 The datasets comes from: https://public.roboflow.com/object-detection/uno-cards
 Yolov10n and Yolov10s model can find in Ultralytics: https://docs.ultralytics.com/models/yolov10/
