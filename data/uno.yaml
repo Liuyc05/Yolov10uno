@@ -1,13 +1,14 @@
-# 训练图像路径（可用绝对路径或相对路径）
+# path
 path: E:/Anaconda/envs/yolov10uno/datasets/unoDatasets
 train: train/images
 val: valid/images
 test: test/images
 
-# 类别总数
+# num of class
 nc: 15
 
-# 类别名，顺序必须与标签中的 class_id 对应
+# The category name, must correspond in order to the class_id in the tag
+# If you are using the datasets from the link don't change this part
 names:
   [
     "num_0", "num_1", "+4", "+2", "reverse", "skip", "wild",
