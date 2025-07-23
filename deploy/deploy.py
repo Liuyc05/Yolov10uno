@@ -4,16 +4,16 @@ import cv2
 import numpy as np
 from collections import Counter
 
-# 1. 加载训练好的模型
+# 1. model path
 model = YOLO("E:/Anaconda/envs/yolov10uno/models/v10n-runs/weights/best.pt")
 
-# 2. 对单张图片进行推理
+# 2. img path
 img_path = "E:\Anaconda\envs\yolov10uno\deploy\graph4.png"
 image = cv2.imread(img_path)
 
 results = model(img_path, save=False, imgsz=640, conf=0.45)
 
-# 定义颜色识别函数
+# color detect due to the datasets lack of classification of clolors
 def get_card_color(region):
     hsv = cv2.cvtColor(region, cv2.COLOR_BGR2HSV)
     h, s, v = cv2.split(hsv)
@@ -35,7 +35,7 @@ def get_card_color(region):
     elif 90 <= avg_hue <= 130:
         return "blue"
     
-# 获取预测结果
+# get results
 boxes = results[0].boxes.xyxy.cpu().numpy()
 classes = results[0].boxes.cls.cpu().numpy().astype(int)
 confidences = results[0].boxes.conf.cpu().numpy()
@@ -51,7 +51,7 @@ for box, cls_id, conf in zip(boxes, classes, confidences):
     x1, y1, x2, y2 = map(int, box)
     card_crop = image[y1:y2, x1:x2]
     
-    # 只对非 wild 卡进行颜色提取
+    # only get non-wild and non-+4 card color
     if "wild" not in name and "+4" not in name:
         card_color = get_card_color(card_crop)
         name = f"{card_color}_{name}"
@@ -59,12 +59,12 @@ for box, cls_id, conf in zip(boxes, classes, confidences):
     colored_labels.append(name)
     
 
-    # 显示结果
+    # show results
     cv2.rectangle(annotated, (x1, y1), (x2, y2), (0, 255, 0), 2)
     cv2.putText(annotated, f"{name} {conf:.2f}", (x1, y1 - 5),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 2)
 
-# 显示图像
+# show img
 cv2.imshow("Colored Result", annotated)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
@@ -72,9 +72,9 @@ cv2.destroyAllWindows()
 save_dir = r"E:\Anaconda\envs\yolov10uno\deploy"
 save_path = os.path.join(save_dir, "result_with_boxes.jpg")
 cv2.imwrite(save_path, annotated)
-print(f"图像已保存至: {save_path}")
+print(f"img save to: {save_path}")
 
-# 统计输出预测种类
+# print results
 counts = Counter(colored_labels)
 print("\nDetected cards:")
 for label, count in counts.items():
